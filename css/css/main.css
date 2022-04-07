@@ -1,0 +1,48 @@
+:root {
+    --danger: #dc3545;
+}
+
+.navbar-toggler {
+    border: none;
+}
+
+.bg-dark {
+    background-color: #1d1a4f !important;
+}
+
+#logo {
+    height: 40px;
+    margin: 0px 10px 0px 0px;
+}
+
+#banner {
+    background: url("../img/2.jpg") center center;
+    padding: 100px;
+}
+
+#banner-content {
+    background-color: rgba(4,9,30,0.8);
+    border-radius: 1rem;
+}
+
+.feature:hover {
+    box-shadow: -10px 10px 20px 0px rgba(157,157,157,0.5);
+}
+
+.ethics:hover {
+    box-shadow: -10px 10px 20px 0px rgba(157,157,157,0.5);
+    border-radius: 5px;
+}
+
+.ethics :hover .fa, .ethics:hover .h4{
+    color: #dc3545;
+}
+
+.team {
+    box-shadow: -10px 10px 20px 0px rgba(157,157,157,0.5);
+}
+
+
+footer {
+    background-color: #04091e;
+}

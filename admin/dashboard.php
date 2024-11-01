@@ -1,8 +1,8 @@
 <?php include "head.php"; ?>
-<?php include "include/config.php";
+<?php include "../include/config.php";
 session_start();
 
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['admin_user'])) {
     header('Location: login.php');
     exit;
 
@@ -31,8 +31,8 @@ if (isset($_POST["cancel"])) {
 
 ?>
 <title>Dashboard page </title>
-<link type="text/css" rel="stylesheet" href="css/jquery.dataTables.min.css">
-<link type="text/css" rel="stylesheet" href="css/jquery.dataTables_themeroller">
+<link type="text/css" rel="stylesheet" href="../css/jquery.dataTables.min.css">
+<link type="text/css" rel="stylesheet" href="../css/jquery.dataTables_themeroller">
 
 <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
@@ -68,7 +68,7 @@ if (isset($message)) {
 
 ?>
 <div class="container-100 dashboard">
-    <h1>Dashboard</h1>
+<h1>Welcome to Admin DashBoard</h1>
 </div>
 
 
@@ -94,6 +94,7 @@ if (isset($message)) {
             <thead>
                 <tr>
                     <th>Order Id</th>
+                    <th>Customer Name</th>
                     <th>Item Name </th>
                     <th>Quantity</th>
                     <th>Rate</th>
@@ -106,15 +107,14 @@ if (isset($message)) {
             </thead>
             <tbody>
                 <?php
-$email = $_SESSION['email'];
+
 if (isset($_POST["search-date"])) {
     extract($_POST);
-    $sql = $conn->prepare("SELECT * FROM `orders` WHERE `createdts` BETWEEN :startdate AND :enddate AND emailid LIKE :email");
+    $sql = $conn->prepare("SELECT * FROM `orders` WHERE `createdts` BETWEEN :startdate AND :enddate");
 
 $sql->execute(array(
     ":startdate"=>$start_date,
     ":enddate"=>$end_date,
-    ":email" => $email,
 ));
 
 foreach ($sql->fetchAll() as $row) {
@@ -169,23 +169,27 @@ foreach ($sql->fetchAll() as $row) {
 
 }
 else{
-    $email = $_SESSION['email'];
+  
 
 
-$sql = $conn->prepare("SELECT * FROM `orders` WHERE `emailid` LIKE :email");
+$sql = $conn->prepare("SELECT * FROM `orders`");
 
-$sql->execute(array(
-    ":email" => $email,
-));
+$sql->execute();
 foreach ($sql->fetchAll() as $row) {
-    $sql1 = $conn->prepare("SELECT * FROM `mstitem` WHERE `id` = :item_id");
+    $sql1 = $conn->prepare("SELECT itemname FROM `mstitem` WHERE `id` = :item_id");
     $sql1->execute(array(
         ":item_id" => $row["itemid"],
     ));
     $row1 = $sql1->fetch();
+    $sql2 = $conn->prepare("SELECT custname FROM `mstcustomer` WHERE `email` = :email");
+    $sql2->execute(array(
+        ":email" => $row["emailid"],
+    ));
+    $row2 = $sql2->fetch();
     echo '
             <tr>
                 <td>'.$row["orderid"].'</td>
+                <td>'.$row2["custname"].'</td>
                 <td>'.$row1["itemname"].'</td>
                 <td>'.$row["qty"].'</td>
                 <td>'.$row["rate"].'</td>
@@ -234,9 +238,9 @@ foreach ($sql->fetchAll() as $row) {
 
 </div>
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.js"></script>

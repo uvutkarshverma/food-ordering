@@ -29,14 +29,7 @@
                         <a href="" title="Terms and Conditions">Terms and Conditions</a>
                     </div>
 
-                    <?php if (!isset($_SESSION['email'])) {
-                    echo '<div class="footer-list-item">
-                        <a href="signup.php" title="Sign Up">Sign Up</a>
-                    </div>';
-                    echo '<div class="footer-list-item">
-                        <a href="login.php" title="Login">Log In</a>
-                    </div>';
-                    } ?>
+                   
                 </div>
             </div>
             <div class="col-md-3 col-xs-6">

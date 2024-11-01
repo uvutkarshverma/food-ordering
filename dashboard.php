@@ -21,7 +21,7 @@ if (isset($_POST["cancel"])) {
             ":orderid"=>$order_id,
 
         ));
-        $message[] = "Your Order is Cancelled Successfully.";
+        $message[] = "Your Order has been Cancelled.";
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -182,7 +182,12 @@ foreach ($sql->fetchAll() as $row) {
                     echo  '<td style="color:red;">'.$row["cancelledts"].'</td>';
                 }
 
-                echo '<td>'.$row["delivery_dt"].'</td>';
+                if(!is_null($row["cancelledts"])){
+                    echo '<td>--</td>';
+                }else{
+                    echo '<td>'.$row["delivery_dt"].'</td>';
+                }
+                
                 
                 
                 if(is_null($row["cancelledts"]) && $row["delivery_dt"] < date('Y-m-d H:i:s')){
